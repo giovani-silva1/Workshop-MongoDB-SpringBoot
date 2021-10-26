@@ -31,12 +31,25 @@ public class UserService {
 		return repo.insert(userCreate);
 	}
 
-	public User dtoFromUser(UserDto dto) {
-		return new User(dto.getId(), dto.getName(), dto.getEmail());
-	}
-	
 	public void delete(String id) {
 		findById(id);
 		repo.deleteById(id);
 	}
+
+	public void update(UserDto dto) {
+		User userUpdate = repo.findById(dto.getId()).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+		User userUpdateNow = updateUser(dto, userUpdate);
+		repo.save(userUpdateNow);
+	}
+
+	public User updateUser(UserDto user, User userUpdate) {
+		userUpdate.setName(user.getName());
+		userUpdate.setEmail(user.getEmail());
+		return userUpdate;
+	}
+
+	public User dtoFromUser(UserDto dto) {
+		return new User(dto.getId(), dto.getName(), dto.getEmail());
+	}
+
 }

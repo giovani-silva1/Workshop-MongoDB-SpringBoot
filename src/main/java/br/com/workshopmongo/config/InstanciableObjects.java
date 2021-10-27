@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.workshopmongo.domain.Post;
 import br.com.workshopmongo.domain.User;
+import br.com.workshopmongo.dto.AuthorDto;
 import br.com.workshopmongo.repository.PostRepository;
 import br.com.workshopmongo.repository.UserRepository;
 
@@ -33,12 +34,13 @@ public class InstanciableObjects implements CommandLineRunner {
 		User user2 = new User(null, "Patricia", "patricia@gmail.com");
 		User user3 = new User(null, "Magda", "Magda@gmail.com");
 
-		Post post1 = new Post(null, sdf1.parse("21/09/1992"), "Viagem para o RJ", "Foi bom demais ver meu amigo",
-				user1);
-		Post post2 = new Post(null, sdf1.parse("21/09/1992"), "Viagem para o SC",
-				"Estava muito frio porem foi maravilhoso meu FND", user1);
-
 		repo.saveAll(Arrays.asList(user1, user2, user3));
+
+		Post post1 = new Post(null, sdf1.parse("21/09/1992"), "Viagem para o RJ", "Foi bom demais ver meu amigo",
+				new AuthorDto(user1));
+		Post post2 = new Post(null, sdf1.parse("21/09/1992"), "Viagem para o SC",
+				"Estava muito frio porem foi maravilhoso meu FND", new AuthorDto(user1));
+
 		post.saveAll(Arrays.asList(post1, post2));
 	}
 }
